@@ -115,6 +115,7 @@ namespace BigCity
       {
 #endif
         Available = true;
+        Application.Current.Shutdown();
 #if RELEASE
       }
 #endif

@@ -34,7 +34,8 @@ namespace BigCity.ProjectModel
       var projectItems = new ConcurrentBag<VSProject>();
 
       // let's do sequential for now
-      foreach (var pf in projFilePaths)
+      //foreach (var pf in projFilePaths)
+      Parallel.ForEach(projFilePaths, pf =>
       {
         if (File.Exists(pf))
         {
@@ -42,26 +43,7 @@ namespace BigCity.ProjectModel
           var pi = projInst.ToProjectItem();
           projectItems.Add(pi);
         }
-      }
-
-      //Parallel.ForEach(projFilePaths, pf =>
-      //{
-      //  // SolutionItems folder is a project item, but does not exist as a file :|
-      //  if (File.Exists(pf))
-      //  {
-      //    try
-      //    {
-      //      var projInst = new ProjectInstance(pf);
-      //      var pi = projInst.ToProjectItem();
-      //      projectItems.Add(pi);
-      //    }
-      //    catch (Exception ex)
-      //    {
-      //      // todo: log this
-      //      throw;
-      //    }
-      //  }
-      //});
+      });
 
       return projectItems;
     }

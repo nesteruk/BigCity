@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using BigCity.ProjectModel;
 using RestSharp;
 
@@ -113,8 +114,8 @@ namespace BigCity
 
     private static void CreateBuildConfigurations(ProjectCreationParams pcp)
     {
-
-      for (int i = 0; i < pcp.Layers.Count; ++i)
+      Parallel.For(0, pcp.Layers.Count, i =>
+        //for (int i = 0; i < pcp.Layers.Count; ++i)
       {
         var layer = pcp.Layers[i];
 
@@ -133,12 +134,13 @@ namespace BigCity
           throw new Exception("Failed to change layer parent project.");
 
         // for each of the projects in the layer
+        //Parallel.ForEach(layer, pd =>
         foreach (var pd in layer)
         {
           // create a build configuration
           rq = new RestRequest("/projects/" + layerProject.Data.id + "/buildTypes");
           rq.AddParameter("text/plain", Path.GetFileNameWithoutExtension(pd.Project.FileName), ParameterType.RequestBody);
-          var resp= pcp.Client.Post<Configuration>(rq);
+          var resp = pcp.Client.Post<Configuration>(rq);
           if (resp.Data == null)
             throw new Exception("Failed to create configuration " + layerProject.Data.id);
 
@@ -149,10 +151,10 @@ namespace BigCity
           rq = new RestRequest("/buildTypes/id:" + conf.id);
           rq.AddBody(conf);
           resp = pcp.Client.Post<Configuration>(rq);
-          if (resp.Data == null)
-            throw new Exception("Unable to update configuration " + conf.id);
+          //if (resp.Data == null)
+          //  throw new Exception("Unable to update configuration " + conf.id);
         }
-      }
+      });
     }
 
     private static Dictionary<int, ProjectData> GetProjectItemsFromSolution(string solutionPath, out List<VSProject> myProjects)
