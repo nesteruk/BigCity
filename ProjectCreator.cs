@@ -149,6 +149,8 @@ namespace BigCity
           rq = new RestRequest("/buildTypes/id:" + conf.id);
           rq.AddBody(conf);
           resp = pcp.Client.Post<Configuration>(rq);
+          if (resp.Data == null)
+            throw new Exception("Unable to update configuration " + conf.id);
         }
       }
     }
