@@ -82,7 +82,8 @@ namespace BigCity.ProjectModel
         ProjectGuid = pi.GetProjectGuid(),
         GACReferences = pi.GetGACProjectReferences(),
         LocalReferences = pi.GetLocalLibraryReferences(),
-        ProjectReferences = pi.GetProjectReferences()
+        ProjectReferences = pi.GetProjectReferences(),
+        OutputFolder =  pi.Properties.First(p => p.Name.Equals("OutputPath")).EvaluatedValue
       };
       return res;
     }

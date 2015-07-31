@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="BigCity" Height="350" Width="525" x:Name="MyWindow"
-        SizeToContent="Height" ResizeMode="NoResize">
+        SizeToContent="Height" ResizeMode="NoResize" Icon="bigcity.ico">
   <Grid DataContext="{Binding ElementName=MyWindow, Path=.}">
     <Grid.Resources>
       <Style x:Key="ElementStyle" TargetType="FrameworkElement">
@@ -14,6 +14,8 @@
       </Style>
     </Grid.Resources>
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
@@ -48,13 +50,23 @@
     <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource ElementStyle}">TeamCity project name</TextBlock>
     <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource BoxStyle}" Text="{Binding Path=ProjectName, UpdateSourceTrigger=PropertyChanged}"
              ToolTip="The name of the project that will be created."/>
-    <TextBlock Grid.Row="5" FontSize="10" Style="{StaticResource ElementStyle}">Location of solution<LineBreak/>relative to repo root</TextBlock>
-    <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource BoxStyle}"
+    <TextBlock Grid.Row="7" FontSize="10" Style="{StaticResource ElementStyle}">Location of solution<LineBreak/>relative to repo root</TextBlock>
+    <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource BoxStyle}"
              Text="{Binding Path=SolutionRelativePath, UpdateSourceTrigger=PropertyChanged}"
              ToolTip="The location of the solution (.sln) file relative to the root of the source control tree. If left blank, assumes the solution file is at the very top."></TextBox>
-    <Button Grid.Row="6" Grid.ColumnSpan="3" Style="{StaticResource ElementStyle}" Height="46" Name="BtnCreateProject" Click="BtnCreateProject_Click"
-            IsEnabled="{Binding Path=Available, UpdateSourceTrigger=PropertyChanged}" ToolTip="Click to create the build configurations.">
-      <TextBlock>
+    
+    <TextBlock Grid.Row="5" Style="{StaticResource ElementStyle}" Text="Configuration:"/>
+    
+    <TextBlock Grid.Row="6" Style="{StaticResource ElementStyle}"
+               Text="VCS root:"/>
+    <ComboBox Grid.Row="6" Grid.Column="1" Style="{StaticResource BoxStyle}"
+              ItemsSource="{Binding Path=VcsRoots, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="name"></ComboBox>
+    <Button Grid.Row="6" Grid.Column="2" Style="{StaticResource BoxStyle}"
+            Content="Get list" Click="GetVcsRoots"/>
+    <Button Grid.Row="8" Grid.ColumnSpan="3" Grid.Column="0" Style="{StaticResource ElementStyle}" Height="46" Name="BtnCreateProject" Click="BtnCreateProject_Click"
+            IsEnabled="{Binding Path=Available, UpdateSourceTrigger=PropertyChanged}" 
+            ToolTip="Click to create the build configurations.">
+      <TextBlock Name="TbSubmit">
         Create Project '<Run Text="{Binding Path=ProjectName, UpdateSourceTrigger=PropertyChanged}"/>'
       </TextBlock>
     </Button>

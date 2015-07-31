@@ -13,6 +13,8 @@ namespace BigCity
     public string SolutionPath;
     public string SolutionRelativePath;
 
+    public ILog Log;
+
     public RestClient Client;
     public ProjectCreator.Project Project;
     public List<HashSet<ProjectData>> Layers;

@@ -39,7 +39,10 @@ namespace BigCity.ProjectModel
       {
         if (File.Exists(pf))
         {
-          var projInst = new ProjectInstance(pf);
+          IDictionary<string, string> props = new Dictionary<string, string>();
+          props.Add("Configuration", "Debug");
+          props.Add("Platform", "x64");
+          var projInst = new ProjectInstance(pf, props, "4.0");
           var pi = projInst.ToProjectItem();
           projectItems.Add(pi);
         }
