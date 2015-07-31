@@ -78,8 +78,8 @@ namespace BigCity
 
 #if DEBUG
       ServerUrl = "http://localhost:81/";
-      Username = "dnesteruk";
-      TbPassword.Password = Encoding.Unicode.GetString(Convert.FromBase64String("dAByAHUAcwB0AG4AbwAxAA=="));
+      Username = "admin";
+      TbPassword.Password = "admin";
 #endif
     }
 
